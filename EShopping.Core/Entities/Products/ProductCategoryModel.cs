@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Common;
+using EShopping.Core.Entities.Ordering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -20,8 +21,8 @@ namespace DataLayer.Entities.Products
         public int? ParentId { get; set; }
         #endregion
         #region relations
-
-        #endregion
+        public ICollection<ProductModel> Products { get; set; }
+        #endregion 
 
 
     }

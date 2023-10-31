@@ -10,7 +10,7 @@ namespace DataLayer.Entities.Common
     public class BaseEntity
     {
         [Key]
-        public long Id { get; set; }
+        public int Id { get; set; }
 
         public string? Description { get; set; }
 

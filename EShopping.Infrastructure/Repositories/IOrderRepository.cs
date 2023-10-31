@@ -10,5 +10,10 @@ namespace EShopping.Infrastructure.Repositories
     public interface IOrderRepository : IDisposable
     {
         Task AddProductToOrder(OrderModel orderModel);
+
+        Task AddOrderDetail(OrderDetailModel orderDetailModel);
+
+        Task<List<OrderModel>> GetOrder();
+
     }
 }

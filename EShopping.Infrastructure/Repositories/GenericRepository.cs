@@ -21,7 +21,7 @@ namespace EShopping.Core.Repositories
 
         #endregion
 
-        public IQueryable<TEntity?> GetAll()
+        public IQueryable<TEntity> GetAll()
         {
             return _dbSet.AsQueryable();
         }

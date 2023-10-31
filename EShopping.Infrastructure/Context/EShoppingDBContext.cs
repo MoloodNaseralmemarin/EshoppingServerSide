@@ -28,9 +28,13 @@ namespace EShopping.Infrastructure.Context
         #region Products
         public DbSet<ProductModel> Products { get; set; }
         public DbSet<ProductCategoryModel> ProductCategories { get; set; }
+
+        public DbSet<ProductSelectedCalculationModel> ProductSelectedCalculations { get; set; }
         #endregion
         #region Ordering
         public DbSet<OrderModel> Orders { get; set; }
+
+        public DbSet<OrderDetailModel> OrderDetails { get; set; }
 
         public DbSet<WageModel> Wages { get; set; }
         #endregion

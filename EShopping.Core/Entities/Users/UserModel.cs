@@ -1,10 +1,6 @@
 ﻿using DataLayer.Entities.Common;
-using System;
-using System.Collections.Generic;
+using EShopping.Core.Entities.Ordering;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DataLayer.Entities.Users
 {
@@ -25,6 +21,7 @@ namespace DataLayer.Entities.Users
         [Display(Name = "تفن ثابت")]
         [Required]
         public string TelPhone { get; set; }
+
 
     }
 }
