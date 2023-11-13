@@ -21,12 +21,12 @@ namespace EShopping.Core.Repositories
 
         #endregion
 
-        public IQueryable<TEntity> GetAll()
+        public IQueryable<TEntity> GetEntitiesQuery()
         {
             return _dbSet.AsQueryable();
         }
 
-        public async Task<TEntity?> GetEntityById(long entityId)
+        public async Task<TEntity?> GetEntityById(int entityId)
         {
             return await _dbSet.SingleOrDefaultAsync(e => e.Id == entityId);
         }
@@ -47,7 +47,6 @@ namespace EShopping.Core.Repositories
             entity.LastUpdateDate = DateTime.Now;
             _dbSet.Update(entity);
         }
-
         public void RemoveEntity(TEntity? entity)
         {
             if (entity == null) return;
@@ -55,7 +54,7 @@ namespace EShopping.Core.Repositories
             UpdateEntity(entity);
         }
 
-        public async Task RemoveEntity(long entityId)
+        public async Task RemoveEntity(int entityId)
         {
             var entity = await GetEntityById(entityId);
             RemoveEntity(entity);

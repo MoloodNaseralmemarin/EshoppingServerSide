@@ -5,7 +5,11 @@ using EShopping.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
+using System.Globalization;
 using System.Linq;
+using System.Runtime.CompilerServices;
+using System.Runtime.ConstrainedExecution;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -21,99 +25,30 @@ namespace EShopping.Infrastructure.Repositories
             _calculationRepository = calculationRepository;
             _productSelectedCalculation = productSelectedCalculation;
         }
-        int purchasePrice = 0;
+        decimal purchasePrice = 0;
+
+        public async Task<List<CalculationModel>> GetCalculation()
+        {
+            return await _calculationRepository.GetEntitiesQuery()
+           .ToListAsync();
+        }
         public async Task<List<ProductSelectedCalculationModel>> CalculationByProductId(int productId)
         {
-            return await _productSelectedCalculation.GetAll()
+            return await _productSelectedCalculation.GetEntitiesQuery()
                 .Where(s => s.ProductId == productId).ToListAsync();
 
         }
 
         public async Task<List<CalculationModel>> GetAll()
         {
-            return await _calculationRepository.GetAll().ToListAsync();
+            return await _calculationRepository.GetEntitiesQuery().ToListAsync();
         }
-
-        public async Task<int> GetWagePrice(long id)
-        {
-            CalculationModel model=await _calculationRepository.GetEntityById(id);
-            return model.PurchasePrice;
-        }
-
-        public void Dispose()
-        {
-            _calculationRepository?.Dispose();
-        }
-
-        public async Task<int> GetPackagingPrice(int id)
-        {
-            CalculationModel model = await _calculationRepository.GetEntityById(id);
-            return model.PurchasePrice;
-        }
-
-        public async Task<int> GetPriceById(int id)
+        public async Task<decimal> GetPriceById(int id)
         {
             var query = await _calculationRepository.GetEntityById(id);
             if(query!=null)
                 return query.PurchasePrice;
             return 0;
-        }
-
-
-        public async Task<int> GetMagnetPrice(int height)
-        {
-            int resultcountMagnet = 0;
-        
-            switch (height)
-            {
-                case int n when (n >= 0 && n <= 200):
-                purchasePrice =await GetPriceById(9);
-                    resultcountMagnet = height - 20 / (int)1.01D * 2;
-                    break;
-                case int n when (n >= 200 && n <= 400):
-                purchasePrice = await GetPriceById(9);
-                     resultcountMagnet = height - 20 / (int)1.01D * 2;
-                    break;
-                default:
-                    Console.WriteLine("error");
-                    break;
-            }
-            return resultcountMagnet;
-        }
-
-        public Task<int> CalculationById(int id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public async Task<int> GetZipper5Price(int width)
-        {
-            purchasePrice = await GetPriceById(5);
-            int resultzipper5Price =(width+5) * (int)0.01D * purchasePrice;
-            return resultzipper5Price;
-  
-        }
-
-        public async Task<int> GetGlue4Price(int width)
-        {
-            purchasePrice = await GetPriceById(5);
-            int resultGlue4Price = (width + 5) * (int)0.01D * purchasePrice;
-            return resultGlue4Price;
-        }
-
-        public async Task<int> GetGlue2Price(int height)
-        {
-            int heightNew = GetHeightNew(height);
-            purchasePrice = await GetPriceById(5);
-            int resultGlue2Price = heightNew / 1000 * purchasePrice;
-            return resultGlue2Price;
-        }
-        public async Task<int> GetZipper2Price(int height)
-        {
-            int heightNew = GetHeightNew(height);
-            purchasePrice = await GetPriceById(5);
-            int resultZipper2Price = heightNew / 1000 * purchasePrice;
-            return resultZipper2Price;
         }
 
         public int GetHeightNew(int height)
@@ -146,21 +81,112 @@ namespace EShopping.Infrastructure.Repositories
             return heightNew;
         }
 
-        public async Task<int> GetChodonPrice()
+       
+        #region زیپ چسب 5 سانت
+        public async Task<decimal> GetZipper5Price(int width)
+        {
+            purchasePrice = await GetPriceById(5);
+            decimal resultZipper5Price =(((width + 5) * 0.01M) * purchasePrice);
+            return resultZipper5Price;
+        }
+        #endregion
+        #region زیپ چسب 2.5 سانت
+        public async Task<decimal> GetZipper2Price(int height)
+        {
+            decimal heightNew = GetHeightNew(height);
+            purchasePrice = await GetPriceById(6);
+            decimal resultZipper2Price = ((heightNew / 100) * purchasePrice);
+            return resultZipper2Price;
+        }
+        #endregion
+        #region جودون
+        public async Task<decimal> GetChodonPrice(int width)
         {
             purchasePrice = await GetPriceById(7);
-            int resultChodon = (int)1.05D * purchasePrice;
+            decimal resultChodon =((width +2) * 0.01M) * purchasePrice;
             return resultChodon;
         }
-
-        public async Task<int> GetNavarganPrice()
+        #endregion
+        #region گان
+        public async Task<decimal> GetGanPrice(int height)
         {
             purchasePrice = await GetPriceById(8);
-            int resultNavargan = (int)1.05D * purchasePrice;
-            return resultNavargan;
+            decimal resultGan = (((((height + 10) * 0.01M) * 4.2M) * 4) * purchasePrice);
+            return resultGan;
         }
+        #endregion
+        #region آهن ربا
+        public async Task<decimal> GetMagnetPrice(int height)
+        {
+            decimal resultcountMagnet = 0;
+            purchasePrice = await GetPriceById(9);
+            switch (height)
+            {
+                case int n when (n >= 0 && n <= 200):
+                    resultcountMagnet = (((Math.Round((height - 20) / 13.5M) * 2)) * purchasePrice);
+                    break;
+                case int n when (n >= 200 && n <= 400):
 
 
-}
+                    //resultcountMagnet = (((height - 30) / 13.5M) * 2);
+                    decimal a = height - 30;
+                    decimal b = Math.Ceiling( a / 13.5M);
+                    decimal c = b * 2;
+                    decimal d = c * purchasePrice;
+                    resultcountMagnet = d;
+                   // resultcountMagnet = (((Math.Round((height - 30) / 13.5M) * 2)) * purchasePrice);
+                    break;
+                default:
+                    Console.WriteLine("error");
+                    break;
+            }
+            return resultcountMagnet;
+        }
+        #endregion
+        #region چسب 2 طرفه 4 سانت
+        public async Task<decimal> GetGlue4Price(int width)
+        {
+            purchasePrice = await GetPriceById(10);
+            decimal resultGlue4Price = (((width + 5) * 0.01M) * purchasePrice);
+           return resultGlue4Price;
+        }
+        #endregion
+        #region  چسب 2 طرفه 2 سانت
+        public async Task<decimal> GetGlue2Price(int height)
+        {
+            decimal heightNew = GetHeightNew(height);
+            purchasePrice = await GetPriceById(11);
+            decimal resultGlue2Price =((heightNew / 100 )* purchasePrice);
+            return resultGlue2Price;
+        }
+        #endregion
+
+
+        #region اجرت
+        public async Task<decimal> GetWagePrice(int id)
+        {
+            var query = await _calculationRepository.GetEntityById(id);
+            if (query != null)
+                return query.PurchasePrice;
+            return 0;
+        }
+        #endregion
+        #region بسته بندی
+        public async Task<decimal> GetPackagingPrice(int id)
+        {
+            var query = await _calculationRepository.GetEntityById(id);
+            if (query != null)
+                return query.PurchasePrice;
+            return 0;
+        }
+        #endregion
+
+
+        public void Dispose()
+        {
+            _calculationRepository?.Dispose();
+            
+        }
+    }
 
 }

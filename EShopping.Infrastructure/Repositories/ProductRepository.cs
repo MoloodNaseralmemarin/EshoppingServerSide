@@ -19,7 +19,7 @@ namespace EShopping.Infrastructure.Repositories
         }
         public async Task<ProductModel> GetProductByCategory(int categoryId, int subcategoryId)
         {
-                var order = await _productRepository.GetAll()
+                var order = await _productRepository.GetEntitiesQuery()
                     .SingleOrDefaultAsync(p => p.ProductCategoryId == categoryId && p.SubProductCategoryId==subcategoryId);
                 return order;
         }
@@ -27,7 +27,7 @@ namespace EShopping.Infrastructure.Repositories
                 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _productRepository.Dispose();
         }
     }
 }

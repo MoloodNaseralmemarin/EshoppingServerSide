@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Products;
+using EShooping.Application.DTOs.Orders;
 using EShopping.Core.Entities.Ordering;
 using EShopping.Core.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -22,6 +23,25 @@ namespace EShopping.Infrastructure.Repositories
             _orderDetailRepository = orderDetailRepository;
         }
 
+        public async Task<List<ShowOrderViewModel>> GetAll()
+        {
+            return await _orderRepository.GetEntitiesQuery()
+                .Include(o=>o.Product)
+                .OrderByDescending(o=>o.Id)
+                .Select(o=>new ShowOrderViewModel
+                {
+                   Cost = o.Cost,
+                   Count = o.Count,
+                   CreateDate = DateTime.Now,
+                   Height = o.Height,
+                   ProductName = o.Product.ProductName,
+                   OrderId=o.Id,
+                   TotalCost = o.TotalCost,
+                   Width=o.Width,
+                })
+                .ToListAsync();
+        }
+
         public async Task AddProductToOrder(OrderModel orderModel)
         {
             await _orderRepository.AddEntity(orderModel);
@@ -34,19 +54,65 @@ namespace EShopping.Infrastructure.Repositories
             await _orderDetailRepository.AddEntity(orderDetailModel);
             await _orderDetailRepository.SaveChanges();
         }
-        public async Task<List<OrderModel>> GetOrder()
-        {
-            var u = await _orderRepository.GetAll()
-                  .Where(o=>!o.IsDelete)
-                  .ToListAsync();
-            return u;
 
+        public async Task<List<OrderDetailModel>> GetOrderDetails()
+        {
+            return await _orderDetailRepository.GetEntitiesQuery()
+                .Where(o=>o.OrderId==0)
+                .ToListAsync();
         }
-        public void Dispose()
+        public async Task UpdateOrderDetail(OrderDetailModel orderDetailModel)
+        {
+           _orderDetailRepository.UpdateEntity(orderDetailModel);
+            await _orderDetailRepository.SaveChanges();
+        }
+
+        public async Task<List<OrderDetailViewModel>> GetOrderDetailsByOrderId(int orderId)
+        {
+            //            return await _orderDetailRepository.GetEntitiesQuery().
+            //            Where(od => od.OrderId == orderId)
+            //.OrderBy(od => od.Id)
+            //.ThenBy(od => od.ProductSelectedCalculation.Calculation.Id)
+            //.ThenBy(od => od.Cost)
+            //.Select(o => new OrderDetailViewModel
+            //{
+            //    Id = o.Id,
+            //    OrderId = orderId,
+            //    CalculationId = o.ProductSelectedCalculation.Calculation.Id,
+            //    CreateDate = o.CreateDate,
+            //    CalculationTitle = o.ProductSelectedCalculation.Calculation.Name,
+            //    Cost = o.Cost,
+            //    TotalCost = o.TotalCost,
+            //})
+            //.ToListAsync();
+            //        }
+            //    }
+
+
+            var query= await _orderDetailRepository.GetEntitiesQuery()
+                .Where(o=>o.OrderId==orderId)
+                .OrderBy(p => p.Id)
+                .Select(o => new OrderDetailViewModel
+                {
+                    Id = o.Id,
+                    OrderId = orderId,
+                    CalculationId =o.ProductSelectedCalculationId ,
+                    CalculationTitle =o.ProductSelectedCalculation.Calculation.Name,
+                    
+                    Cost=o.Cost,
+                    TotalCost=o.TotalCost,
+                      })
+                     .ToListAsync();
+
+            return query;
+
+                }
+
+        
+
+    public void Dispose()
         {
             _orderRepository.Dispose();
         }
-
-
     }
 }

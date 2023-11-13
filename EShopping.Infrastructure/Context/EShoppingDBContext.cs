@@ -26,7 +26,7 @@ namespace EShopping.Infrastructure.Context
         public DbSet<UserModel> Users { get; set; }
         #endregion
         #region Products
-        public DbSet<ProductModel> Products { get; set; }
+        public Microsoft.EntityFrameworkCore.DbSet<ProductModel> Products { get; set; }
         public DbSet<ProductCategoryModel> ProductCategories { get; set; }
 
         public DbSet<ProductSelectedCalculationModel> ProductSelectedCalculations { get; set; }
@@ -48,12 +48,12 @@ namespace EShopping.Infrastructure.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            base.OnModelCreating(modelBuilder);
+
 
 
             //for uniqueidentifier
             //modelBuilder.Entity<Product>().Property(p => p.Id).HasDefaultValueSql("(newid())");
-            modelBuilder.Entity<ProductModel>().Property(p => p.CreateDate).HasDefaultValueSql("(getdate())");
+          //  modelBuilder.Entity<ProductModel>().Property(p => p.CreateDate).HasDefaultValueSql("(getdate())");
 
             
            
@@ -165,6 +165,18 @@ namespace EShopping.Infrastructure.Context
             {
                 fk.DeleteBehavior = DeleteBehavior.Restrict;
             }
+
+            //modelBuilder.Entity<ProductSelectedCalculationModel>()
+            //    .HasKey(bc => new { bc.ProductId, bc.CalculationId });
+            //modelBuilder.Entity<ProductSelectedCalculationModel>()
+            //    .HasOne(bc => bc.Product)
+            //    .WithMany(b => b.ProductSelectedCalculation)
+            //    .HasForeignKey(bc => bc.ProductId);
+            //modelBuilder.Entity<ProductSelectedCalculationModel>()
+            //    .HasOne(bc => bc.Calculation)
+            //    .WithMany(c => c.ProductSelectedCalculation)
+            //    .HasForeignKey(bc => bc.CalculationId);
+
 
             base.OnModelCreating(modelBuilder);
         }

@@ -25,7 +25,7 @@ namespace EShopping.Infrastructure.Repositories
         #endregion
         public async Task<List<ProductCategoryModel>> GetAll()
         {
-            return await _productCategoryRepository.GetAll().ToListAsync();
+            return await _productCategoryRepository.GetEntitiesQuery().ToListAsync();
         }
         public void Dispose()
         {
@@ -34,13 +34,13 @@ namespace EShopping.Infrastructure.Repositories
 
         public async Task<List<ProductCategoryModel>> GetProductCategory()
         {
-            return await _productCategoryRepository.GetAll()
+            return await _productCategoryRepository.GetEntitiesQuery()
                .Where(pc=>pc.ParentId==null).ToListAsync();
         }
 
         public async Task<List<ProductCategoryModel>> GetProductCategoryByParentId(long parentId)
         {
-            return await _productCategoryRepository.GetAll()
+            return await _productCategoryRepository.GetEntitiesQuery()
                 .Where(pc => pc.ParentId == parentId).ToListAsync();
         }
     }

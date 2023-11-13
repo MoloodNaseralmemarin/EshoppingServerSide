@@ -1,4 +1,5 @@
 ﻿using DataLayer.Entities.Common;
+using DataLayer.Entities.Products;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,6 +12,9 @@ namespace EShopping.Core.Entities.Calculations
     {
         public string Name { get; set; }
         public int PurchasePrice { get; set; }
+
+
+        public ICollection<ProductSelectedCalculationModel> ProductSelectedCalculation { get; set; }
 
 
     }

@@ -12,15 +12,15 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EShopping.Infrastructure.Migrations
 {
     [DbContext(typeof(EShoppingDBContext))]
-    [Migration("20231030094922_sdsad")]
-    partial class sdsad
+    [Migration("20231110083732_dsfdsf")]
+    partial class dsfdsf
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
-                .HasAnnotation("ProductVersion", "8.0.0-rc.2.23480.1")
+                .HasAnnotation("ProductVersion", "7.0.13")
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
@@ -66,9 +66,7 @@ namespace EShopping.Infrastructure.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("CreateDate")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("datetime2")
-                        .HasDefaultValueSql("(getdate())");
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Description")
                         .HasColumnType("nvarchar(max)");
@@ -248,9 +246,6 @@ namespace EShopping.Infrastructure.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("CalculationId")
-                        .HasColumnType("int");
-
                     b.Property<decimal>("Cost")
                         .HasColumnType("decimal(18,2)");
 
@@ -269,10 +264,17 @@ namespace EShopping.Infrastructure.Migrations
                     b.Property<int>("OrderId")
                         .HasColumnType("int");
 
+                    b.Property<int>("ProductSelectedCalculationId")
+                        .HasColumnType("int");
+
                     b.Property<decimal>("TotalCost")
                         .HasColumnType("decimal(18,2)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("OrderId");
+
+                    b.HasIndex("ProductSelectedCalculationId");
 
                     b.ToTable("OrderDetails");
                 });
@@ -306,10 +308,7 @@ namespace EShopping.Infrastructure.Migrations
                     b.Property<DateTime>("LastUpdateDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<long>("ProductCategoryId")
-                        .HasColumnType("bigint");
-
-                    b.Property<int>("SubProductCategoryId")
+                    b.Property<int>("ProductId")
                         .HasColumnType("int");
 
                     b.Property<decimal>("TotalCost")
@@ -319,6 +318,9 @@ namespace EShopping.Infrastructure.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("ProductId")
+                        .IsUnique();
 
                     b.ToTable("Orders");
                 });
@@ -374,13 +376,13 @@ namespace EShopping.Infrastructure.Migrations
             modelBuilder.Entity("DataLayer.Entities.Products.ProductSelectedCalculationModel", b =>
                 {
                     b.HasOne("EShopping.Core.Entities.Calculations.CalculationModel", "Calculation")
-                        .WithMany()
+                        .WithMany("ProductSelectedCalculation")
                         .HasForeignKey("CalculationId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("DataLayer.Entities.Products.ProductModel", "Product")
-                        .WithMany()
+                        .WithMany("ProductSelectedCalculation")
                         .HasForeignKey("ProductId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -390,9 +392,57 @@ namespace EShopping.Infrastructure.Migrations
                     b.Navigation("Product");
                 });
 
+            modelBuilder.Entity("EShopping.Core.Entities.Ordering.OrderDetailModel", b =>
+                {
+                    b.HasOne("EShopping.Core.Entities.Ordering.OrderModel", "Order")
+                        .WithMany("OrderDetails")
+                        .HasForeignKey("OrderId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DataLayer.Entities.Products.ProductSelectedCalculationModel", "ProductSelectedCalculation")
+                        .WithMany()
+                        .HasForeignKey("ProductSelectedCalculationId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Order");
+
+                    b.Navigation("ProductSelectedCalculation");
+                });
+
+            modelBuilder.Entity("EShopping.Core.Entities.Ordering.OrderModel", b =>
+                {
+                    b.HasOne("DataLayer.Entities.Products.ProductModel", "Product")
+                        .WithOne("Order")
+                        .HasForeignKey("EShopping.Core.Entities.Ordering.OrderModel", "ProductId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Product");
+                });
+
             modelBuilder.Entity("DataLayer.Entities.Products.ProductCategoryModel", b =>
                 {
                     b.Navigation("Products");
+                });
+
+            modelBuilder.Entity("DataLayer.Entities.Products.ProductModel", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
+
+                    b.Navigation("ProductSelectedCalculation");
+                });
+
+            modelBuilder.Entity("EShopping.Core.Entities.Calculations.CalculationModel", b =>
+                {
+                    b.Navigation("ProductSelectedCalculation");
+                });
+
+            modelBuilder.Entity("EShopping.Core.Entities.Ordering.OrderModel", b =>
+                {
+                    b.Navigation("OrderDetails");
                 });
 #pragma warning restore 612, 618
         }

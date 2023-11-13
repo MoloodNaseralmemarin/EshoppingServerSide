@@ -9,17 +9,15 @@ namespace EShopping.Core.Repositories
 {
     public interface IGenericRepository<TEntity> : IDisposable where TEntity : BaseEntity
     {
-        IQueryable<TEntity> GetAll();
+        IQueryable<TEntity> GetEntitiesQuery();
 
-        Task<TEntity?> GetEntityById(long entityId);
+        Task<TEntity?> GetEntityById(int entityId);
 
         Task AddEntity(TEntity entity);
-
         void UpdateEntity(TEntity? entity);
-
         void RemoveEntity(TEntity? entity);
 
-        Task RemoveEntity(long entityId);
+        Task RemoveEntity(int entityId);
 
         Task SaveChanges();
     }

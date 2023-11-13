@@ -6,38 +6,40 @@ namespace EShopping.Infrastructure.Repositories
 {
     public interface ICalculationRepository:IDisposable
     {
-        Task<int> GetPriceById(int id);
+
+        Task<List<CalculationModel>> GetCalculation();
+        Task<decimal> GetPriceById(int id);
 
         //فرمول دسته بندی کنم و بگم اگر این بود اینو نشون بده
         Task<List<ProductSelectedCalculationModel>> CalculationByProductId(int productId);
-        Task<int> CalculationById(int id);
         int GetHeightNew(int height);
-        #region چسب دو طرفه 2 سانت
-        Task<int> GetGlue2Price(int height);
+
+        #region زیپ چسب 5 سانت
+        Task<decimal> GetZipper5Price(int width);
         #endregion
-        #region زیپ چسب 2.5 سانت
-        Task<int> GetZipper2Price(int height);
-        #endregion
-        #region چسب دو طرفه 4 سانت
-        Task<int> GetGlue4Price(int width);
-        #endregion
-        #region زیپ چسب5سانت
-        Task<int> GetZipper5Price(int width);
+        #region چسب 2 طرفه 4 سانت
+        Task<decimal> GetGlue4Price(int width);
         #endregion
         #region جودون
-        Task<int> GetChodonPrice();
+        Task<decimal> GetChodonPrice(int width);
         #endregion
-        #region نوارگان
-        Task<int> GetNavarganPrice { get; set; }
+        #region گان
+        Task<decimal> GetGanPrice(int height);
         #endregion
         #region آهن ربا
-        Task<int> GetMagnetPrice(int height);
+        Task<decimal> GetMagnetPrice(int height);
+        #endregion
+        #region زیپ چسب 2.5 سانت
+        Task<decimal> GetZipper2Price(int height);
+        #endregion
+        #region چسب 2 طرفه 2 سانت
+        Task<decimal> GetGlue2Price(int height);
         #endregion
         #region اجرت
-        Task<int> GetWagePrice(long id);
+        Task<decimal> GetWagePrice(int id);
         #endregion
         #region بسته بندی
-        Task<int> GetPackagingPrice(int id);
+        Task<decimal> GetPackagingPrice(int id);
         #endregion
 
        

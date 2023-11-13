@@ -1,4 +1,6 @@
-﻿using EShopping.Core.Entities.Ordering;
+﻿using DataLayer.Entities.Products;
+using EShooping.Application.DTOs.Orders;
+using EShopping.Core.Entities.Ordering;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,11 +11,17 @@ namespace EShopping.Infrastructure.Repositories
 {
     public interface IOrderRepository : IDisposable
     {
+        Task<List<ShowOrderViewModel>> GetAll();
+
         Task AddProductToOrder(OrderModel orderModel);
 
         Task AddOrderDetail(OrderDetailModel orderDetailModel);
 
-        Task<List<OrderModel>> GetOrder();
+        Task UpdateOrderDetail(OrderDetailModel orderDetailModel);
+        Task<List<OrderDetailModel>> GetOrderDetails();
+
+        Task<List<OrderDetailViewModel>> GetOrderDetailsByOrderId(int orderId);
+        
 
     }
 }

@@ -1,4 +1,6 @@
 ﻿using DataLayer.Entities.Common;
+using EShopping.Core.Entities.Calculations;
+using EShopping.Core.Entities.Ordering;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
@@ -22,7 +24,15 @@ namespace DataLayer.Entities.Products
 
         #region relations
 
+        public OrderModel Order { get; set; }
+
         public ProductCategoryModel ProductCategory { get; set; }
+
+        public ICollection<ProductSelectedCalculationModel> ProductSelectedCalculation { get; set; }
+
+        //public ICollection<ProductModel> Products { get; set; }
+
+        //public ICollection<CalculationModel> Calculations { get; set; }
 
         #endregion
     }
