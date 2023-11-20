@@ -3,13 +3,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.7.34202.233
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopping.API", "EShopping.API\EShopping.API.csproj", "{21B5BD3F-18BD-4CD8-B366-0BE408511535}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopping.API", "EShopping.API\EShopping.API.csproj", "{21B5BD3F-18BD-4CD8-B366-0BE408511535}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopping.Core", "EShopping.Core\EShopping.Core.csproj", "{CC9E70BD-BC20-4CB4-A816-17816FEC208F}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopping.Core", "EShopping.Core\EShopping.Core.csproj", "{CC9E70BD-BC20-4CB4-A816-17816FEC208F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopping.Infrastructure", "EShopping.Infrastructure\EShopping.Infrastructure.csproj", "{7C5AA4F8-660B-4F28-8A1D-E28D03FFE684}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "EShopping.Infrastructure", "EShopping.Infrastructure\EShopping.Infrastructure.csproj", "{7C5AA4F8-660B-4F28-8A1D-E28D03FFE684}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShooping.Application", "EShooping.Application\EShooping.Application.csproj", "{E049CBE7-2CDE-455B-BA9E-4C8339A28050}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "EShopping.Application", "EShopping.Application\EShopping.Application.csproj", "{542D5960-20F7-4057-B615-E32E294FBA9E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,10 +29,10 @@ Global
 		{7C5AA4F8-660B-4F28-8A1D-E28D03FFE684}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{7C5AA4F8-660B-4F28-8A1D-E28D03FFE684}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7C5AA4F8-660B-4F28-8A1D-E28D03FFE684}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E049CBE7-2CDE-455B-BA9E-4C8339A28050}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E049CBE7-2CDE-455B-BA9E-4C8339A28050}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E049CBE7-2CDE-455B-BA9E-4C8339A28050}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E049CBE7-2CDE-455B-BA9E-4C8339A28050}.Release|Any CPU.Build.0 = Release|Any CPU
+		{542D5960-20F7-4057-B615-E32E294FBA9E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{542D5960-20F7-4057-B615-E32E294FBA9E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{542D5960-20F7-4057-B615-E32E294FBA9E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{542D5960-20F7-4057-B615-E32E294FBA9E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

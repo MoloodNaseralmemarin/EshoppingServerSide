@@ -10,6 +10,7 @@ using System.Globalization;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Runtime.ConstrainedExecution;
+using System.Security.Principal;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -86,8 +87,11 @@ namespace EShopping.Infrastructure.Repositories
         public async Task<decimal> GetZipper5Price(int width)
         {
             purchasePrice = await GetPriceById(5);
-            decimal resultZipper5Price =(((width + 5) * 0.01M) * purchasePrice);
-            return resultZipper5Price;
+            //decimal resultZipper5Price =(((width + 5) * 0.01M) * purchasePrice);
+            decimal a = width + 5;
+            decimal b = a * 0.01M;
+            decimal c = b * purchasePrice;
+            return c;
         }
         #endregion
         #region زیپ چسب 2.5 سانت

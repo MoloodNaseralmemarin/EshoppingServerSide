@@ -19,7 +19,7 @@
     </PackageReference>
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\EShooping.Application\EShooping.Application.csproj" />
+    <ProjectReference Include="..\EShopping.Application\EShopping.Application.csproj" />
     <ProjectReference Include="..\EShopping.Core\EShopping.Core.csproj" />
   </ItemGroup>
 
