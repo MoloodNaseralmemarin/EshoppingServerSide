@@ -1,4 +1,5 @@
-﻿using EShooping.Application.DTOs.Orders;
+﻿using AngularEshop.Core.DTOs.Calculations;
+using EShooping.Application.DTOs.Orders;
 using EShopping.Core.Entities.Calculations;
 using EShopping.Core.Entities.Ordering;
 using EShopping.Infrastructure.Repositories;
@@ -31,5 +32,18 @@ namespace EShopping.API.Controllers
             }
 
         }
+
+
+        #region edit calculation
+
+        [HttpPatch("edit-calculation")]
+        public async Task<IActionResult> EditCalculation([FromBody] EditCalculationViewModel editUser,int calculationId)
+        {
+            await _calculatorRepository.EditCalculation(editUser,calculationId);
+            return Ok();
+        }
+
+        #endregion
+
     }
 }

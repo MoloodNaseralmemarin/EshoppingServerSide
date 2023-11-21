@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities.Products;
+﻿using AngularEshop.Core.DTOs.Calculations;
+using DataLayer.Entities.Products;
 using EShopping.Core.Entities.Calculations;
 
 
@@ -8,11 +9,18 @@ namespace EShopping.Infrastructure.Repositories
     {
 
         Task<List<CalculationModel>> GetCalculation();
+
+        Task<int> GetCalculationById(int id);
         Task<decimal> GetPriceById(int id);
+
+        Task UpdateCalculation(CalculationModel calculation);
 
         //فرمول دسته بندی کنم و بگم اگر این بود اینو نشون بده
         Task<List<ProductSelectedCalculationModel>> CalculationByProductId(int productId);
         int GetHeightNew(int height);
+
+        Task<CalculationModel> GetCalculationtById(int Id);
+        Task EditCalculation(EditCalculationViewModel editCalculation,int calculationId);
 
         #region زیپ چسب 5 سانت
         Task<decimal> GetZipper5Price(int width);

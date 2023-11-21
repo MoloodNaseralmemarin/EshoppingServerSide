@@ -1,4 +1,5 @@
-﻿using DataLayer.Entities.Products;
+﻿using AngularEshop.Core.DTOs.Calculations;
+using DataLayer.Entities.Products;
 using EShopping.Core.Entities.Calculations;
 using EShopping.Core.Entities.Ordering;
 using EShopping.Core.Repositories;
@@ -43,6 +44,25 @@ namespace EShopping.Infrastructure.Repositories
         public async Task<List<CalculationModel>> GetAll()
         {
             return await _calculationRepository.GetEntitiesQuery().ToListAsync();
+        }
+
+
+        public async Task<CalculationModel> GetCalculationtById(int Id)
+        {
+            return await _calculationRepository.GetEntityById(Id);
+        }
+
+        public async Task EditCalculation(EditCalculationViewModel editCalculation,int calculationId)
+        {
+
+            var mainUser = await _calculationRepository.GetEntityById(calculationId);
+            if (mainUser != null)
+            {
+                mainUser.Name = editCalculation.Name;
+                mainUser.PurchasePrice = editCalculation.PurchasePrice;
+                _calculationRepository.UpdateEntity(mainUser);
+                await _calculationRepository.SaveChanges();
+            }
         }
         public async Task<decimal> GetPriceById(int id)
         {
@@ -190,6 +210,26 @@ namespace EShopping.Infrastructure.Repositories
         {
             _calculationRepository?.Dispose();
             
+        }
+
+        public async Task UpdateCalculation(CalculationModel calculation)
+        {
+            var mainCalculation = await _calculationRepository.GetEntityById(calculation.Id);
+            if (mainCalculation != null)
+            {
+                mainCalculation.Name = calculation.Name;
+                mainCalculation.PurchasePrice = calculation.PurchasePrice;
+                _calculationRepository.UpdateEntity(mainCalculation);
+                await _calculationRepository.SaveChanges();
+            }
+        }
+
+        public async Task<int> GetCalculationById(int id)
+        {
+            var query = await _calculationRepository.GetEntityById(id);
+            if (query != null)
+                return query.Id;
+            return 0;
         }
     }
 
