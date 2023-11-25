@@ -26,6 +26,10 @@ namespace EShopping.API.Controllers
         [HttpPost("add-order")]
         public async Task<IActionResult> AddProductToOrder(OrderViewModel orderView)
         {
+
+            int oldHeight=orderView.Height;
+            int oldWidth = orderView.Width;
+
             //برای عرض و ارتفاع جدید
 
             int aa = orderView.Height % 10;
@@ -204,8 +208,8 @@ namespace EShopping.API.Controllers
                 var order = new OrderModel
                 {
                     ProductId = product.Id,
-                    Height = orderView.Height,
-                    Width = orderView.Width,
+                    Height = oldHeight,
+                    Width = oldWidth,
                     Count = orderView.Count,
                     Cost = resultTotalCost,
                     TotalCost = orderView.Count * resultTotalCost,
